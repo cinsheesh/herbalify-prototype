@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbalify — UI Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --g1:#2E7D32;--g2:#388E3C;--g3:#43A047;--g4:#66BB6A;--g5:#A5D6A7;
+  --g6:#C8E6C9;--g7:#E8F5E9;--g8:#F1F8E9;
+  --cream:#FAF7F2;--cream2:#F3EFE5;
+  --white:#FFFFFF;--text:#1A2B1C;--text2:#4A5E4C;--muted:#8A9E8C;
+  --border:#E8F0E8;
+  --shadow-sm:0 2px 12px rgba(46,125,50,0.08);
+  --shadow:0 4px 24px rgba(46,125,50,0.12);
+  --shadow-lg:0 8px 40px rgba(46,125,50,0.18);
+  --r:20px;--r2:14px;--r3:50px;--r4:12px;
+}
+body{
+  font-family:'Poppins',sans-serif;
+  background:#2E7D32;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:30px 20px;
+}
+h1.app-title{
+  color:#fff;font-size:28px;font-weight:800;
+  letter-spacing:-0.5px;margin-bottom:6px;
+}
+.app-subtitle{color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:24px;}
+
+/* Page tabs */
+.page-tabs{
+  display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+  max-width:800px;margin-bottom:24px;
+}
+.ptab{
+  padding:7px 14px;border-radius:20px;font-size:11px;font-weight:600;
+  cursor:pointer;border:1.5px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.1);color:#fff;
+  font-family:'Poppins',sans-serif;transition:all .2s;
+}
+.ptab.active,.ptab:hover{background:#fff;color:var(--g1);border-color:#fff;}
+
+/* Phone frame */
+.phone-wrap{
+  display:flex;justify-content:center;
+}
+.phone{
+  width:360px;height:800px;
+  background:var(--white);
+  border-radius:36px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,0.4);
+  border:8px solid #1a1a1a;
+}
+.phone::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:100px;height:24px;background:#1a1a1a;border-radius:0 0 16px 16px;z-index:100;
+}
+.screen{width:100%;height:100%;overflow:hidden;}
+.page{
+  width:100%;height:100%;
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+}
+.page.active{display:flex;}
+.scroll-area{overflow-y:auto;overflow-x:hidden;flex:1;}
+.scroll-area::-webkit-scrollbar{display:none;}
+
+/* ===== SPLASH ===== */
+#splash{
+  background:linear-gradient(165deg,#F0FAF0 0%,#FFFFFF 55%,#F9F6F0 100%);
+  align-items:center;justify-content:center;position:relative;
+}
+.splash-top{text-align:center;z-index:2;margin-top:30px;}
+.mortar-wrap{
+  width:100px;height:100px;
+  background:linear-gradient(135deg,var(--g1),var(--g4));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;
+  box-shadow:0 8px 32px rgba(46,125,50,0.35);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.splash-h1{font-size:36px;font-weight:800;color:var(--g1);letter-spacing:-1px;}
+.splash-tagline{font-size:10px;color:var(--muted);margin-top:8px;letter-spacing:2.5px;text-transform:uppercase;}
+.splash-desc{font-size:12px;color:var(--text2);margin-top:12px;line-height:1.6;max-width:200px;}
+.splash-dot{display:flex;gap:6px;justify-content:center;margin-top:30px;}
+.splash-dot span{width:6px;height:6px;border-radius:50%;background:var(--g5);}
+.splash-dot span:nth-child(2){background:var(--g1);}
+.splash-leaves{position:absolute;bottom:0;left:0;right:0;height:220px;overflow:hidden;}
+
+/* ===== AUTH ===== */
+.auth-hero{
+  height:230px;flex-shrink:0;position:relative;
+  background:linear-gradient(155deg,var(--g7),#d0edcf);
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+.auth-illustration{font-size:80px;position:relative;z-index:2;}
+.auth-leaves-bg{position:absolute;top:-20px;right:-20px;opacity:0.2;}
+.auth-form-wrap{
+  flex:1;background:var(--white);
+  border-radius:var(--r) var(--r) 0 0;
+  margin-top:-20px;z-index:3;
+  padding:28px 24px;overflow-y:auto;
+}
+.auth-form-wrap::-webkit-scrollbar{display:none;}
+.auth-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.auth-sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
+.field-label{font-size:10px;font-weight:600;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;display:block;}
+.field-wrap{position:relative;margin-bottom:14px;}
+.field{
+  width:100%;padding:13px 42px 13px 16px;
+  border:1.5px solid var(--border);border-radius:var(--r2);
+  font-family:'Poppins',sans-serif;font-size:13px;color:var(--text);
+  background:var(--cream);outline:none;transition:all .2s;
+}
+.field:focus{border-color:var(--g3);background:#fff;box-shadow:0 0 0 3px rgba(46,125,50,0.08);}
+.field-ico{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:16px;
+}
+.forgot{text-align:right;font-size:11px;color:var(--g1);font-weight:500;
+  margin-top:-6px;margin-bottom:18px;cursor:pointer;}
+.btn-main{
+  width:100%;padding:14px;background:var(--g1);color:#fff;
+  border:none;border-radius:var(--r3);font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 18px rgba(46,125,50,0.35);transition:all .2s;
+}
+.btn-main:hover{background:var(--g2);transform:translateY(-1px);}
+.btn-out{
+  width:100%;padding:13px;background:transparent;color:var(--g1);
+  border:1.5px solid var(--g1);border-radius:var(--r3);
+  font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;margin-top:10px;transition:all .2s;
+}
+.divider-row{
+  display:flex;align-items:center;gap:12px;margin:16px 0;
+}
+.divider-row span{font-size:11px;color:var(--muted);}
+.divider-row::before,.divider-row::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* ===== HOME ===== */
+.home-header{
+  background:var(--white);padding:44px 20px 0;flex-shrink:0;
+}
+.greeting-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.greeting-text small{font-size:11px;color:var(--muted);}
+.greeting-text h3{font-size:19px;font-weight:700;color:var(--text);margin-top:2px;}
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g1),var(--g4));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:14px;
+}
+.sbar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--cream);border-radius:var(--r3);
+  padding:12px 16px;margin-bottom:20px;
+}
+.sbar input{
+  border:none;background:transparent;font-family:'Poppins',sans-serif;
+  font-size:13px;color:var(--text);flex:1;outline:none;
+}
+.sbar input::placeholder{color:var(--muted);}
+.sico{color:var(--muted);font-size:16px;}
+.home-scroll{flex:1;overflow-y:auto;padding:0 20px 100px;}
+.home-scroll::-webkit-scrollbar{display:none;}
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.sec-title{font-size:15px;font-weight:700;color:var(--text);}
+.see-all{font-size:11px;color:var(--g1);font-weight:500;cursor:pointer;}
+
+.banner{
+  background:linear-gradient(130deg,var(--g1) 0%,var(--g3) 100%);
+  border-radius:var(--r);padding:22px 20px;margin-bottom:24px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.banner h4{font-size:17px;font-weight:700;margin-bottom:6px;}
+.banner p{font-size:11px;opacity:.85;max-width:170px;line-height:1.6;}
+.banner-btn{
+  margin-top:14px;padding:8px 18px;background:#fff;color:var(--g1);
+  border-radius:20px;font-size:11px;font-weight:700;
+  display:inline-block;cursor:pointer;
+}
+.banner-emo{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-size:72px;opacity:0.25;
+}
+
+.cats{display:flex;gap:14px;margin-bottom:24px;overflow-x:auto;padding-bottom:4px;}
+.cats::-webkit-scrollbar{display:none;}
+.cat-item{display:flex;flex-direction:column;align-items:center;gap:7px;
+  cursor:pointer;flex-shrink:0;}
+.cat-icon{
+  width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+}
+.ci1{background:var(--g7);}
+.ci2{background:#FFF3E0;}
+.ci3{background:#F3E5F5;}
+.ci4{background:#E8EAF6;}
+.cat-label{font-size:10px;font-weight:600;color:var(--text2);}
+
+.hcards{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:6px;}
+.hcards::-webkit-scrollbar{display:none;}
+.hcard{
+  width:135px;flex-shrink:0;background:var(--white);
+  border-radius:var(--r);border:1px solid var(--border);
+  overflow:hidden;box-shadow:var(--shadow-sm);cursor:pointer;
+  transition:transform .2s;
+}
+.hcard:hover{transform:translateY(-3px);}
+.hcard-img{
+  height:95px;display:flex;align-items:center;justify-content:center;
+  font-size:44px;
+}
+.hcard-bg1{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
+.hcard-bg2{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
+.hcard-bg3{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);}
+.hcard-bg4{background:linear-gradient(135deg,#E8EAF6,#C5CAE9);}
+.hcard-bg5{background:linear-gradient(135deg,#E0F7FA,#B2EBF2);}
+.hcard-body{padding:10px;}
+.hcard-body h5{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.hcard-body p{font-size:10px;color:var(--muted);}
+.tag{
+  font-size:9px;background:var(--g7);color:var(--g1);
+  padding:2px 8px;border-radius:10px;margin-top:5px;
+  display:inline-block;font-weight:600;
+}
+
+.art-card{
+  display:flex;gap:12px;padding:13px;background:var(--white);
+  border-radius:var(--r2);border:1px solid var(--border);
+  margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow-sm);
+  transition:transform .2s;
+}
+.art-card:hover{transform:translateX(2px);}
+.art-thumb{
+  width:72px;height:72px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;flex-shrink:0;
+}
+.at1{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
+.at2{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
+.at3{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);}
+.art-info h5{font-size:12px;font-weight:600;color:var(--text);
+  line-height:1.4;margin-bottom:4px;}
+.art-info .art-cat{
+  font-size:9px;background:var(--g7);color:var(--g1);
+  padding:2px 8px;border-radius:8px;margin-bottom:5px;
+  display:inline-block;font-weight:600;
+}
+.art-info p{font-size:10px;color:var(--muted);line-height:1.5;}
+.art-info .art-meta{font-size:9px;color:var(--muted);margin-top:4px;}
+
+/* Bottom Nav */
+.bnav{
+  display:flex;background:var(--white);
+  border-top:1px solid var(--border);
+  padding:10px 0 20px;flex-shrink:0;
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:3px;cursor:pointer;padding:4px 0;
+}
+.bnav-item i{font-size:22px;color:#C8D8C8;transition:.2s;}
+.bnav-item span{font-size:9px;color:#C8D8C8;font-weight:500;transition:.2s;}
+.bnav-item.on i,.bnav-item.on span{color:var(--g1);}
+.bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--g1);margin-top:1px;opacity:0;}
+.bnav-item.on .bnav-dot{opacity:1;}
+
+/* ===== DETAIL ===== */
+.detail-img{
+  height:270px;background:linear-gradient(145deg,#E8F5E9,#C8E6C9);
+  display:flex;align-items:center;justify-content:center;font-size:100px;
+  position:relative;flex-shrink:0;
+}
+.back-btn{
+  position:absolute;top:52px;left:16px;width:38px;height:38px;
+  background:#fff;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;box-shadow:var(--shadow);
+  font-size:18px;color:var(--g1);
+}
+.fav-btn{
+  position:absolute;top:52px;right:16px;width:38px;height:38px;
+  background:#fff;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;box-shadow:var(--shadow);
+  font-size:18px;color:#e57373;
+}
+.detail-body{
+  background:var(--white);border-radius:var(--r) var(--r) 0 0;
+  margin-top:-20px;flex:1;overflow-y:auto;padding:24px 20px 30px;
+}
+.detail-body::-webkit-scrollbar{display:none;}
+.detail-name{font-size:24px;font-weight:800;color:var(--text);}
+.detail-latin{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:12px;}
+.detail-tags{display:flex;gap:6px;margin-bottom:18px;}
+.dtag{
+  font-size:10px;padding:4px 12px;border-radius:20px;font-weight:600;
+}
+.dtag1{background:var(--g7);color:var(--g1);}
+.dtag2{background:#FFF3E0;color:#E65100;}
+.detail-sec{margin-bottom:18px;}
+.detail-sec-title{
+  font-size:13px;font-weight:700;color:var(--text);
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.detail-sec-title i{color:var(--g1);font-size:16px;}
+.detail-sec p{font-size:12px;color:var(--text2);line-height:1.7;}
+.benefit-list{display:flex;flex-direction:column;gap:6px;}
+.benefit-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--text2);
+}
+.benefit-item::before{
+  content:'✓';width:20px;height:20px;background:var(--g7);
+  color:var(--g1);border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;
+}
+.step-list{display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;gap:10px;align-items:flex-start;}
+.step-num{
+  width:22px;height:22px;border-radius:50%;background:var(--g1);
+  color:#fff;font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.step p{font-size:12px;color:var(--text2);line-height:1.6;}
+.warning-box{
+  background:#FFF8E1;border-radius:var(--r2);padding:12px 14px;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.warning-box i{color:#F9A825;font-size:16px;flex-shrink:0;margin-top:1px;}
+.warning-box p{font-size:11px;color:#5D4037;line-height:1.6;}
+
+/* ===== SEARCH ===== */
+.search-header{
+  background:var(--white);padding:44px 20px 16px;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.search-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:14px;}
+.sbar-active{
+  display:flex;align-items:center;gap:10px;
+  background:var(--g7);border:1.5px solid var(--g5);
+  border-radius:var(--r3);padding:12px 16px;
+}
+.sbar-active input{
+  border:none;background:transparent;font-family:'Poppins',sans-serif;
+  font-size:13px;color:var(--text);flex:1;outline:none;
+}
+.filter-chips{
+  display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:2px;
+}
+.filter-chips::-webkit-scrollbar{display:none;}
+.chip{
+  padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;
+  cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);
+  background:transparent;color:var(--muted);font-family:'Poppins',sans-serif;transition:all .2s;
+}
+.chip.on,.chip:hover{background:var(--g1);color:#fff;border-color:var(--g1);}
+.search-scroll{flex:1;overflow-y:auto;padding:16px 20px 30px;}
+.search-scroll::-webkit-scrollbar{display:none;}
+.scard{
+  display:flex;gap:12px;padding:12px;background:var(--white);
+  border-radius:var(--r2);border:1px solid var(--border);
+  margin-bottom:10px;box-shadow:var(--shadow-sm);cursor:pointer;
+  align-items:center;transition:transform .2s;
+}
+.scard:hover{transform:translateX(3px);}
+.scard-img{
+  width:60px;height:60px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  flex-shrink:0;
+}
+.si1{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
+.si2{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
+.si3{background:linear-gradient(135deg,#F3E5F5,#E1BEE7);}
+.si4{background:linear-gradient(135deg,#E8EAF6,#C5CAE9);}
+.si5{background:linear-gradient(135deg,#E0F7FA,#B2EBF2);}
+.si6{background:linear-gradient(135deg,#FCE4EC,#F8BBD0);}
+.scard-info h5{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.scard-info p{font-size:11px;color:var(--muted);}
+.scard-info .stag{
+  font-size:9px;background:var(--g7);color:var(--g1);
+  padding:2px 7px;border-radius:8px;font-weight:600;margin-top:4px;display:inline-block;
+}
+.scard-arrow{margin-left:auto;color:var(--muted);font-size:18px;}
+.sresult-count{font-size:11px;color:var(--muted);margin-bottom:12px;}
+
+/* ===== FAVORIT ===== */
+.fav-header{
+  background:var(--white);padding:44px 20px 16px;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.fav-title{font-size:18px;font-weight:700;color:var(--text);}
+.fav-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.fav-scroll{flex:1;overflow-y:auto;padding:16px 20px 100px;}
+.fav-scroll::-webkit-scrollbar{display:none;}
+.fcard{
+  display:flex;gap:12px;padding:14px;background:var(--white);
+  border-radius:var(--r2);border:1px solid var(--border);
+  margin-bottom:10px;box-shadow:var(--shadow-sm);align-items:center;
+}
+.fcard-img{
+  width:64px;height:64px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;
+}
+.fcard-info{flex:1;}
+.fcard-info h5{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.fcard-info p{font-size:11px;color:var(--muted);}
+.fcard-info .ftag{
+  font-size:9px;background:var(--g7);color:var(--g1);
+  padding:2px 7px;border-radius:8px;font-weight:600;margin-top:4px;display:inline-block;
+}
+.fcard-del{
+  width:36px;height:36px;border-radius:50%;background:#FFF5F5;
+  border:none;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#EF5350;font-size:16px;flex-shrink:0;transition:all .2s;
+}
+.fcard-del:hover{background:#FFEBEE;}
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 20px;text-align:center;
+}
+.empty-ico{font-size:70px;margin-bottom:20px;opacity:0.6;}
+.empty-state h4{font-size:16px;font-weight:600;color:var(--text2);margin-bottom:8px;}
+.empty-state p{font-size:12px;color:var(--muted);line-height:1.6;}
+.empty-btn{
+  margin-top:20px;padding:12px 28px;background:var(--g1);color:#fff;
+  border:none;border-radius:var(--r3);font-family:'Poppins',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);
+}
+
+/* ===== ARTIKEL ===== */
+.artikel-header{
+  background:var(--white);padding:44px 20px 16px;flex-shrink:0;
+  border-bottom:1px solid var(--border);
+}
+.artikel-title{font-size:18px;font-weight:700;color:var(--text);}
+.art-tabs{
+  display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:2px;
+}
+.art-tabs::-webkit-scrollbar{display:none;}
+.art-tab{
+  padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;
+  cursor:pointer;white-space:nowrap;border:1.5px solid var(--border);
+  background:transparent;color:var(--muted);font-family:'Poppins',sans-serif;transition:all .2s;
+}
+.art-tab.on,.art-tab:hover{background:var(--g1);color:#fff;border-color:var(--g1);}
+.artikel-scroll{flex:1;overflow-y:auto;padding:16px 20px 100px;}
+.artikel-scroll::-webkit-scrollbar{display:none;}
+.art-featured{
+  background:linear-gradient(130deg,var(--g1),var(--g3));
+  border-radius:var(--r);padding:20px;margin-bottom:16px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.art-featured .fcat{
+  font-size:9px;background:rgba(255,255,255,0.25);
+  padding:3px 10px;border-radius:10px;margin-bottom:10px;
+  display:inline-block;font-weight:600;letter-spacing:.5px;
+}
+.art-featured h4{font-size:16px;font-weight:700;line-height:1.4;margin-bottom:8px;}
+.art-featured .fmeta{font-size:10px;opacity:.75;}
+.art-featured-emo{
+  position:absolute;right:12px;bottom:10px;font-size:60px;opacity:0.2;
+}
+.big-art-card{
+  background:var(--white);border-radius:var(--r);border:1px solid var(--border);
+  margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);cursor:pointer;
+  transition:transform .2s;
+}
+.big-art-card:hover{transform:translateY(-2px);}
+.big-art-thumb{
+  height:140px;display:flex;align-items:center;justify-content:center;font-size:60px;
+}
+.bat1{background:linear-gradient(135deg,#E8F5E9,#A5D6A7);}
+.bat2{background:linear-gradient(135deg,#FFF3E0,#FFCC80);}
+.bat3{background:linear-gradient(135deg,#E3F2FD,#90CAF9);}
+.bat4{background:linear-gradient(135deg,#F3E5F5,#CE93D8);}
+.big-art-body{padding:14px;}
+.big-art-body .bcat{
+  font-size:9px;background:var(--g7);color:var(--g1);
+  padding:2px 8px;border-radius:8px;font-weight:600;margin-bottom:6px;display:inline-block;
+}
+.big-art-body h5{font-size:13px;font-weight:700;color:var(--text);
+  line-height:1.4;margin-bottom:6px;}
+.big-art-body p{font-size:11px;color:var(--muted);line-height:1.5;}
+.big-art-body .meta{
+  font-size:10px;color:var(--muted);margin-top:8px;
+  display:flex;align-items:center;gap:12px;
+}
+
+/* ===== PROFIL ===== */
+.profil-header{
+  background:linear-gradient(155deg,var(--g1),var(--g3));
+  padding:44px 20px 40px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;
+}
+.profil-avatar{
+  width:80px;height:80px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin-bottom:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.profil-name{font-size:18px;font-weight:700;color:#fff;}
+.profil-email{font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;}
+.profil-stats{
+  display:flex;gap:0;margin-top:20px;
+  background:rgba(255,255,255,0.15);border-radius:var(--r2);overflow:hidden;
+}
+.pstat{
+  flex:1;padding:12px 10px;text-align:center;
+  border-right:1px solid rgba(255,255,255,0.15);
+}
+.pstat:last-child{border-right:none;}
+.pstat .psnum{font-size:18px;font-weight:700;color:#fff;}
+.pstat .pslbl{font-size:9px;color:rgba(255,255,255,0.7);margin-top:2px;}
+.profil-scroll{flex:1;overflow-y:auto;background:var(--cream);}
+.profil-scroll::-webkit-scrollbar{display:none;}
+.profil-section{padding:20px 20px 0;}
+.profil-section-title{font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.menu-card{
+  background:var(--white);border-radius:var(--r2);
+  border:1px solid var(--border);margin-bottom:16px;overflow:hidden;
+}
+.menu-item{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  cursor:pointer;border-bottom:1px solid var(--border);transition:background .2s;
+}
+.menu-item:last-child{border-bottom:none;}
+.menu-item:hover{background:var(--cream);}
+.menu-ico{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;flex-shrink:0;
+}
+.mico1{background:var(--g7);color:var(--g1);}
+.mico2{background:#FFF3E0;color:#E65100;}
+.mico3{background:#E3F2FD;color:#1565C0;}
+.mico4{background:#FCE4EC;color:#C62828;}
+.menu-text{flex:1;}
+.menu-text h5{font-size:13px;font-weight:600;color:var(--text);}
+.menu-text p{font-size:10px;color:var(--muted);margin-top:1px;}
+.menu-arr{color:var(--muted);font-size:16px;}
+.logout-btn{
+  margin:16px 20px 30px;width:calc(100% - 40px);padding:14px;
+  background:#FFF5F5;color:#EF5350;border:1.5px solid #FFCDD2;
+  border-radius:var(--r3);font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.logout-btn:hover{background:#FFEBEE;}
+
+/* ===== ADMIN ===== */
+.admin-header{
+  background:linear-gradient(155deg,#1B5E20,var(--g1));
+  padding:44px 20px 20px;flex-shrink:0;
+}
+.admin-header-row{display:flex;justify-content:space-between;align-items:center;}
+.admin-tag{
+  font-size:9px;background:rgba(255,255,255,0.2);color:#fff;
+  padding:3px 10px;border-radius:10px;font-weight:600;letter-spacing:.5px;
+}
+.admin-title{font-size:20px;font-weight:700;color:#fff;margin-top:6px;}
+.admin-sub{font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;}
+.admin-scroll{flex:1;overflow-y:auto;background:var(--cream);padding:16px 16px 30px;}
+.admin-scroll::-webkit-scrollbar{display:none;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.stat-card{
+  background:var(--white);border-radius:var(--r2);
+  padding:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);
+}
+.stat-card .s-ico{font-size:24px;margin-bottom:8px;}
+.stat-card .s-num{font-size:26px;font-weight:800;color:var(--text);}
+.stat-card .s-lbl{font-size:10px;color:var(--muted);margin-top:2px;font-weight:500;}
+.stat-card .s-trend{
+  font-size:10px;color:var(--g1);font-weight:600;
+  margin-top:6px;display:flex;align-items:center;gap:3px;
+}
+.admin-sec{margin-bottom:18px;}
+.admin-sec-title{
+  font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.admin-sec-title span{font-size:11px;color:var(--g1);font-weight:500;cursor:pointer;}
+.crud-card{
+  background:var(--white);border-radius:var(--r2);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:10px;
+  box-shadow:var(--shadow-sm);
+}
+.crud-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 14px 10px;
+}
+.crud-title{font-size:13px;font-weight:700;color:var(--text);}
+.crud-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.btn-add{
+  padding:6px 14px;background:var(--g1);color:#fff;
+  border:none;border-radius:20px;font-family:'Poppins',sans-serif;
+  font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;
+}
+.crud-list{border-top:1px solid var(--border);}
+.crud-item{
+  display:flex;align-items:center;gap:10px;padding:11px 14px;
+  border-bottom:1px solid var(--border);
+}
+.crud-item:last-child{border-bottom:none;}
+.crud-item-ico{font-size:24px;flex-shrink:0;}
+.crud-item-info{flex:1;}
+.crud-item-info h6{font-size:12px;font-weight:600;color:var(--text);}
+.crud-item-info p{font-size:10px;color:var(--muted);}
+.crud-actions{display:flex;gap:6px;}
+.ibtn{
+  width:30px;height:30px;border-radius:8px;
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all .2s;
+}
+.ibtn-edit{background:#E3F2FD;color:#1565C0;}
+.ibtn-del{background:#FFEBEE;color:#C62828;}
+.ibtn:hover{transform:scale(1.1);}
+.admin-chart{
+  background:var(--white);border-radius:var(--r2);
+  border:1px solid var(--border);padding:16px;margin-bottom:18px;
+}
+.chart-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:12px;}
+.chart-bars{display:flex;gap:6px;align-items:flex-end;height:80px;}
+.cbar{flex:1;border-radius:4px 4px 0 0;background:var(--g5);min-height:8px;position:relative;}
+.cbar.active{background:var(--g1);}
+.cbar-lbl{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-size:8px;color:var(--muted);white-space:nowrap;
+}
+.chart-x{height:20px;}
+</style>
+</head>
+<body>
+
+<h1 class="app-title">🌿 Herbalify</h1>
+<p class="app-subtitle">Interactive UI Prototype — Android 360×800</p>
+
+<div class="page-tabs">
+  <button class="ptab active" onclick="showPage('splash',this)">1. Splash</button>
+  <button class="ptab" onclick="showPage('login',this)">2. Login</button>
+  <button class="ptab" onclick="showPage('register',this)">3. Register</button>
+  <button class="ptab" onclick="showPage('home',this)">4. Beranda</button>
+  <button class="ptab" onclick="showPage('search',this)">5. Pencarian</button>
+  <button class="ptab" onclick="showPage('detail',this)">6. Detail Tanaman</button>
+  <button class="ptab" onclick="showPage('favorit',this)">7. Favorit</button>
+  <button class="ptab" onclick="showPage('artikel',this)">8. Artikel</button>
+  <button class="ptab" onclick="showPage('profil',this)">9. Profil</button>
+  <button class="ptab" onclick="showPage('admin',this)">10. Admin</button>
+</div>
+
+<div class="phone-wrap">
+<div class="phone">
+<div class="screen">
+
+<!-- ===== SPLASH ===== -->
+<div class="page active" id="splash">
+  <div style="flex:1;background:linear-gradient(165deg,#F0FAF0 0%,#fff 55%,#FAF7F2 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+    <div class="splash-top">
+      <div class="mortar-wrap">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;">
+          <ellipse cx="30" cy="42" rx="18" ry="8" fill="rgba(255,255,255,0.3)"/>
+          <path d="M12 34 Q12 50 30 50 Q48 50 48 34 L44 22 Q44 18 30 18 Q16 18 16 22 Z" fill="rgba(255,255,255,0.9)"/>
+          <path d="M16 22 Q16 18 30 18 Q44 18 44 22 L44 26 Q44 22 30 22 Q16 22 16 26 Z" fill="rgba(255,255,255,0.5)"/>
+          <rect x="26" y="10" width="8" height="14" rx="4" fill="rgba(255,255,255,0.9)"/>
+          <circle cx="40" cy="20" r="3" fill="rgba(255,255,255,0.6)"/>
+          <path d="M38 12 Q44 16 42 22" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="splash-h1">Herbalify</div>
+      <div class="splash-tagline">Apotik Hidup Digital</div>
+      <div class="splash-desc">Aplikasi informasi &amp; edukasi<br>tanaman herbal lengkap</div>
+      <div class="splash-dot"><span></span><span></span><span></span></div>
+    </div>
+    <!-- Leaf decorations -->
+    <div class="splash-leaves">
+      <svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 180 Q40 120 100 140 Q60 80 140 100 Q100 40 180 80 Q160 20 240 60 Q220 0 300 40 Q280 -20 360 20 L360 220 Z" fill="#E8F5E9" opacity="0.8"/>
+        <path d="M0 200 Q60 150 130 170 Q100 110 190 130 Q160 70 240 100 Q210 30 310 70 L360 50 L360 220 Z" fill="#C8E6C9" opacity="0.5"/>
+        <!-- Leaf illustrations -->
+        <g transform="translate(30,150) rotate(-20)">
+          <ellipse cx="0" cy="0" rx="18" ry="32" fill="#66BB6A" opacity="0.4"/>
+          <line x1="0" y1="-30" x2="0" y2="30" stroke="#43A047" stroke-width="1.5" opacity="0.5"/>
+        </g>
+        <g transform="translate(80,130) rotate(15)">
+          <ellipse cx="0" cy="0" rx="14" ry="24" fill="#81C784" opacity="0.35"/>
+          <line x1="0" y1="-22" x2="0" y2="22" stroke="#43A047" stroke-width="1" opacity="0.5"/>
+        </g>
+        <g transform="translate(260,140) rotate(-10)">
+          <ellipse cx="0" cy="0" rx="20" ry="36" fill="#66BB6A" opacity="0.4"/>
+          <line x1="0" y1="-34" x2="0" y2="34" stroke="#43A047" stroke-width="1.5" opacity="0.5"/>
+        </g>
+        <g transform="translate(320,120) rotate(25)">
+          <ellipse cx="0" cy="0" rx="12" ry="22" fill="#81C784" opacity="0.35"/>
+        </g>
+        <g transform="translate(150,160) rotate(-5)">
+          <ellipse cx="0" cy="0" rx="10" ry="18" fill="#A5D6A7" opacity="0.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div class="page" id="login">
+  <div class="auth-hero">
+    <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+      <circle cx="360" cy="0" r="120" fill="#C8E6C9" opacity="0.4"/>
+      <circle cx="0" cy="230" r="100" fill="#A5D6A7" opacity="0.3"/>
+      <g transform="translate(50,140) rotate(-15)">
+        <ellipse cx="0" cy="0" rx="22" ry="40" fill="#66BB6A" opacity="0.3"/>
+        <line x1="0" y1="-38" x2="0" y2="38" stroke="#2E7D32" stroke-width="2" opacity="0.3"/>
+        <line x1="-15" y1="-10" x2="0" y2="0" stroke="#2E7D32" stroke-width="1.5" opacity="0.3"/>
+        <line x1="15" y1="10" x2="0" y2="0" stroke="#2E7D32" stroke-width="1.5" opacity="0.3"/>
+      </g>
+      <g transform="translate(290,50) rotate(20)">
+        <ellipse cx="0" cy="0" rx="18" ry="34" fill="#81C784" opacity="0.3"/>
+        <line x1="0" y1="-32" x2="0" y2="32" stroke="#2E7D32" stroke-width="1.5" opacity="0.3"/>
+      </g>
+      <g transform="translate(170,110) rotate(-5)">
+        <ellipse cx="0" cy="0" rx="26" ry="48" fill="#43A047" opacity="0.25"/>
+        <line x1="0" y1="-46" x2="0" y2="46" stroke="#1B5E20" stroke-width="2" opacity="0.3"/>
+        <line x1="-18" y1="-15" x2="0" y2="0" stroke="#1B5E20" stroke-width="1.5" opacity="0.3"/>
+        <line x1="18" y1="15" x2="0" y2="0" stroke="#1B5E20" stroke-width="1.5" opacity="0.3"/>
+        <line x1="-14" y1="10" x2="0" y2="0" stroke="#1B5E20" stroke-width="1" opacity="0.3"/>
+      </g>
+    </svg>
+    <div class="auth-illustration">🌿</div>
+  </div>
+  <div class="auth-form-wrap">
+    <div class="auth-title">Selamat Datang!</div>
+    <div class="auth-sub">Masuk untuk menjelajahi tanaman herbal</div>
+    <div class="field-wrap">
+      <label class="field-label">Email</label>
+      <input class="field" type="email" placeholder="nama@email.com">
+      <span class="field-ico">✉️</span>
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Password</label>
+      <input class="field" type="password" placeholder="Masukkan password">
+      <span class="field-ico">🔒</span>
+    </div>
+    <div class="forgot">Lupa Password?</div>
+    <button class="btn-main">Masuk</button>
+    <div class="divider-row"><span>atau</span></div>
+    <button class="btn-out">Daftar Akun Baru</button>
+    <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:16px;">
+      Dengan masuk, kamu menyetujui <span style="color:var(--g1);font-weight:500;">Syarat &amp; Ketentuan</span>
+    </p>
+  </div>
+</div>
+
+<!-- ===== REGISTER ===== -->
+<div class="page" id="register">
+  <div class="auth-hero">
+    <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+      <circle cx="0" cy="0" r="120" fill="#C8E6C9" opacity="0.4"/>
+      <circle cx="360" cy="230" r="100" fill="#A5D6A7" opacity="0.3"/>
+      <g transform="translate(290,150) rotate(15)">
+        <ellipse cx="0" cy="0" rx="20" ry="38" fill="#66BB6A" opacity="0.3"/>
+        <line x1="0" y1="-36" x2="0" y2="36" stroke="#2E7D32" stroke-width="2" opacity="0.3"/>
+      </g>
+      <g transform="translate(80,60) rotate(-20)">
+        <ellipse cx="0" cy="0" rx="16" ry="30" fill="#81C784" opacity="0.3"/>
+      </g>
+    </svg>
+    <div class="auth-illustration">🌱</div>
+  </div>
+  <div class="auth-form-wrap">
+    <div class="auth-title">Buat Akun</div>
+    <div class="auth-sub">Bergabung dan mulai perjalanan herbalmu</div>
+    <div class="field-wrap">
+      <label class="field-label">Nama Lengkap</label>
+      <input class="field" type="text" placeholder="Nama lengkap kamu">
+      <span class="field-ico">👤</span>
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Email</label>
+      <input class="field" type="email" placeholder="nama@email.com">
+      <span class="field-ico">✉️</span>
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Password</label>
+      <input class="field" type="password" placeholder="Min. 8 karakter">
+      <span class="field-ico">🔒</span>
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">Konfirmasi Password</label>
+      <input class="field" type="password" placeholder="Ulangi password">
+      <span class="field-ico">🔑</span>
+    </div>
+    <button class="btn-main" style="margin-top:4px;">Daftar Sekarang</button>
+    <div class="divider-row"><span>sudah punya akun?</span></div>
+    <button class="btn-out">Masuk</button>
+  </div>
+</div>
+
+<!-- ===== HOME ===== -->
+<div class="page" id="home">
+  <div class="home-header">
+    <div class="greeting-row">
+      <div class="greeting-text">
+        <small>Selamat Pagi 🌤️</small>
+        <h3>Halo, Aulia! 👋</h3>
+      </div>
+      <div class="avatar">A</div>
+    </div>
+    <div class="sbar">
+      <span class="sico">🔍</span>
+      <input type="text" placeholder="Cari tanaman herbal...">
+      <span style="font-size:16px;">🎛️</span>
+    </div>
+  </div>
+  <div class="home-scroll">
+    <!-- Banner -->
+    <div class="banner" style="margin-top:4px;">
+      <h4>Temukan Manfaat<br>Tanaman Herbal</h4>
+      <p>Lebih dari 200+ tanaman herbal tersedia untuk kesehatanmu</p>
+      <div class="banner-btn">Jelajahi Sekarang</div>
+      <div class="banner-emo">🌿</div>
+    </div>
+
+    <!-- Kategori -->
+    <div class="sec-header">
+      <span class="sec-title">Kategori</span>
+      <span class="see-all">Lihat Semua →</span>
+    </div>
+    <div class="cats">
+      <div class="cat-item">
+        <div class="cat-icon ci1">🍃</div>
+        <span class="cat-label">Daun</span>
+      </div>
+      <div class="cat-item">
+        <div class="cat-icon ci2">🫚</div>
+        <span class="cat-label">Rimpang</span>
+      </div>
+      <div class="cat-item">
+        <div class="cat-icon ci3">🍋</div>
+        <span class="cat-label">Buah</span>
+      </div>
+      <div class="cat-item">
+        <div class="cat-icon ci4">🪴</div>
+        <span class="cat-label">Akar</span>
+      </div>
+      <div class="cat-item">
+        <div class="cat-icon" style="background:#E8F5E9;">🌸</div>
+        <span class="cat-label">Bunga</span>
+      </div>
+      <div class="cat-item">
+        <div class="cat-icon" style="background:#F1F8E9;">🌰</div>
+        <span class="cat-label">Biji</span>
+      </div>
+    </div>
+
+    <!-- Populer -->
+    <div class="sec-header">
+      <span class="sec-title">Tanaman Populer</span>
+      <span class="see-all">Lihat Semua →</span>
+    </div>
+    <div class="hcards">
+      <div class="hcard">
+        <div class="hcard-img hcard-bg1">🌿</div>
+        <div class="hcard-body">
+          <h5>Jahe Merah</h5>
+          <p>Zingiber officinale</p>
+          <span class="tag">Rimpang</span>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-img hcard-bg2">🌻</div>
+        <div class="hcard-body">
+          <h5>Kunyit</h5>
+          <p>Curcuma longa</p>
+          <span class="tag">Rimpang</span>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-img hcard-bg3">🪷</div>
+        <div class="hcard-body">
+          <h5>Lavender</h5>
+          <p>Lavandula spp.</p>
+          <span class="tag">Bunga</span>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-img hcard-bg4">🍃</div>
+        <div class="hcard-body">
+          <h5>Sambiloto</h5>
+          <p>Andrographis</p>
+          <span class="tag">Daun</span>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-img hcard-bg5">🫧</div>
+        <div class="hcard-body">
+          <h5>Lidah Buaya</h5>
+          <p>Aloe vera</p>
+          <span class="tag">Daun</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Artikel -->
+    <div class="sec-header">
+      <span class="sec-title">Artikel Terbaru</span>
+      <span class="see-all">Lihat Semua →</span>
+    </div>
+    <div class="art-card">
+      <div class="art-thumb at1">🌿</div>
+      <div class="art-info">
+        <span class="art-cat">Kesehatan</span>
+        <h5>Manfaat Jahe untuk Imunitas Tubuh</h5>
+        <p>Jahe dikenal memiliki sifat anti-inflamasi yang kuat...</p>
+        <div class="art-meta">📅 20 Mei 2025 · 5 menit baca</div>
+      </div>
+    </div>
+    <div class="art-card">
+      <div class="art-thumb at2">🌸</div>
+      <div class="art-info">
+        <span class="art-cat">Resep</span>
+        <h5>Cara Membuat Jamu Kunyit Asem</h5>
+        <p>Minuman tradisional yang menyegarkan dan menyehatkan...</p>
+        <div class="art-meta">📅 18 Mei 2025 · 3 menit baca</div>
+      </div>
+    </div>
+    <div class="art-card">
+      <div class="art-thumb at3">🍋</div>
+      <div class="art-info">
+        <span class="art-cat">Tips</span>
+        <h5>10 Tanaman Herbal Mudah Ditanam di Rumah</h5>
+        <p>Mulai berkebun herbal di pekarangan rumahmu sendiri...</p>
+        <div class="art-meta">📅 15 Mei 2025 · 7 menit baca</div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item on">
+      <span style="font-size:20px;">🏠</span>
+      <span>Beranda</span>
+      <div class="bnav-dot"></div>
+    </div>
+    <div class="bnav-item">
+      <span style="font-size:20px;">🔍</span>
+      <span>Cari</span>
+    </div>
+    <div class="bnav-item">
+      <span style="font-size:20px;">❤️</span>
+      <span>Favorit</span>
+    </div>
+    <div class="bnav-item">
+      <span style="font-size:20px;">📰</span>
+      <span>Artikel</span>
+    </div>
+    <div class="bnav-item">
+      <span style="font-size:20px;">👤</span>
+      <span>Profil</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEARCH ===== -->
+<div class="page" id="search">
+  <div class="search-header">
+    <div class="search-title">Pencarian</div>
+    <div class="sbar-active">
+      <span style="font-size:16px;color:var(--g1);">🔍</span>
+      <input type="text" placeholder="Cari tanaman herbal..." value="jahe">
+      <span style="font-size:14px;color:var(--muted);cursor:pointer;">✕</span>
+    </div>
+    <div class="filter-chips">
+      <button class="chip on">Semua</button>
+      <button class="chip">Daun</button>
+      <button class="chip">Rimpang</button>
+      <button class="chip">Buah</button>
+      <button class="chip">Akar</button>
+      <button class="chip">Bunga</button>
+    </div>
+  </div>
+  <div class="search-scroll">
+    <p class="sresult-count">Ditemukan <strong>12 tanaman</strong> untuk "jahe"</p>
+    <div class="scard">
+      <div class="scard-img si1">🌿</div>
+      <div class="scard-info">
+        <h5>Jahe Merah</h5>
+        <p>Zingiber officinale var. rubrum</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+    <div class="scard">
+      <div class="scard-img si2">🌱</div>
+      <div class="scard-info">
+        <h5>Jahe Putih</h5>
+        <p>Zingiber officinale</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+    <div class="scard">
+      <div class="scard-img si3">🌺</div>
+      <div class="scard-info">
+        <h5>Jahe Emprit</h5>
+        <p>Zingiber officinale var. amarum</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+    <div class="scard">
+      <div class="scard-img si4">🍃</div>
+      <div class="scard-info">
+        <h5>Kunyit</h5>
+        <p>Curcuma longa</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+    <div class="scard">
+      <div class="scard-img si5">🌿</div>
+      <div class="scard-info">
+        <h5>Temulawak</h5>
+        <p>Curcuma xanthorrhiza</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+    <div class="scard">
+      <div class="scard-img si6">🌸</div>
+      <div class="scard-info">
+        <h5>Kencur</h5>
+        <p>Kaempferia galanga</p>
+        <span class="stag">Rimpang</span>
+      </div>
+      <span class="scard-arrow">›</span>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><span style="font-size:20px;">🏠</span><span>Beranda</span></div>
+    <div class="bnav-item on"><span style="font-size:20px;">🔍</span><span>Cari</span><div class="bnav-dot"></div></div>
+    <div class="bnav-item"><span style="font-size:20px;">❤️</span><span>Favorit</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">📰</span><span>Artikel</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">👤</span><span>Profil</span></div>
+  </div>
+</div>
+
+<!-- ===== DETAIL ===== -->
+<div class="page" id="detail">
+  <div class="detail-img">
+    🌿
+    <div class="back-btn">←</div>
+    <div class="fav-btn">❤️</div>
+    <div style="position:absolute;bottom:30px;left:0;right:0;display:flex;justify-content:center;gap:6px;">
+      <div style="width:24px;height:4px;border-radius:2px;background:var(--g1);opacity:.8;"></div>
+      <div style="width:8px;height:4px;border-radius:2px;background:rgba(0,0,0,.15);"></div>
+      <div style="width:8px;height:4px;border-radius:2px;background:rgba(0,0,0,.15);"></div>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-name">Jahe Merah</div>
+    <div class="detail-latin">Zingiber officinale var. rubrum</div>
+    <div class="detail-tags">
+      <span class="dtag dtag1">🌿 Rimpang</span>
+      <span class="dtag dtag2">🔥 Hangat</span>
+      <span class="dtag" style="background:#E3F2FD;color:#1565C0;">⭐ 4.8</span>
+    </div>
+
+    <div class="detail-sec">
+      <div class="detail-sec-title">📖 Deskripsi</div>
+      <p>Jahe merah adalah tanaman rimpang yang termasuk keluarga Zingiberaceae. Berbeda dengan jahe biasa, jahe merah memiliki warna kemerahan dan aroma lebih tajam. Dikenal sebagai salah satu rempah dengan khasiat terkuat dalam pengobatan tradisional Indonesia.</p>
+    </div>
+
+    <div class="detail-sec">
+      <div class="detail-sec-title">✅ Manfaat Kesehatan</div>
+      <div class="benefit-list">
+        <div class="benefit-item">Meningkatkan sistem imunitas tubuh</div>
+        <div class="benefit-item">Meredakan mual dan gangguan pencernaan</div>
+        <div class="benefit-item">Anti-inflamasi dan pereda nyeri alami</div>
+        <div class="benefit-item">Menghangatkan tubuh &amp; melancarkan sirkulasi</div>
+        <div class="benefit-item">Menurunkan kadar gula darah</div>
+      </div>
+    </div>
+
+    <div class="detail-sec">
+      <div class="detail-sec-title">💊 Cara Penggunaan</div>
+      <p>Dapat dikonsumsi sebagai minuman jahe hangat, suplemen kapsul, atau digunakan secara topikal. Dosis umum: 1-3 gram jahe segar per hari.</p>
+    </div>
+
+    <div class="detail-sec">
+      <div class="detail-sec-title">🍵 Cara Pengolahan</div>
+      <div class="step-list">
+        <div class="step"><div class="step-num">1</div><p>Cuci bersih rimpang jahe merah segar</p></div>
+        <div class="step"><div class="step-num">2</div><p>Kupas kulit luar dan iris tipis-tipis</p></div>
+        <div class="step"><div class="step-num">3</div><p>Rebus dengan 2 gelas air selama 15 menit</p></div>
+        <div class="step"><div class="step-num">4</div><p>Saring dan tambahkan madu atau gula aren</p></div>
+        <div class="step"><div class="step-num">5</div><p>Minum selagi hangat, 1-2 kali sehari</p></div>
+      </div>
+    </div>
+
+    <div class="detail-sec">
+      <div class="detail-sec-title">⚠️ Efek Samping</div>
+      <div class="warning-box">
+        <span>⚠️</span>
+        <p>Konsumsi berlebihan dapat menyebabkan iritasi lambung, heartburn, dan diare. Tidak dianjurkan bagi penderita batu empedu dan wanita hamil tanpa konsultasi dokter.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FAVORIT ===== -->
+<div class="page" id="favorit">
+  <div class="fav-header">
+    <div class="fav-title">Favorit Saya ❤️</div>
+    <div class="fav-sub">5 tanaman tersimpan</div>
+  </div>
+  <div class="fav-scroll">
+    <div class="fcard">
+      <div class="fcard-img" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);">🌿</div>
+      <div class="fcard-info">
+        <h5>Jahe Merah</h5>
+        <p>Zingiber officinale</p>
+        <span class="ftag">Rimpang</span>
+      </div>
+      <button class="fcard-del">🗑️</button>
+    </div>
+    <div class="fcard">
+      <div class="fcard-img" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2);">🌻</div>
+      <div class="fcard-info">
+        <h5>Kunyit</h5>
+        <p>Curcuma longa</p>
+        <span class="ftag">Rimpang</span>
+      </div>
+      <button class="fcard-del">🗑️</button>
+    </div>
+    <div class="fcard">
+      <div class="fcard-img" style="background:linear-gradient(135deg,#E8EAF6,#C5CAE9);">🍃</div>
+      <div class="fcard-info">
+        <h5>Sambiloto</h5>
+        <p>Andrographis paniculata</p>
+        <span class="ftag">Daun</span>
+      </div>
+      <button class="fcard-del">🗑️</button>
+    </div>
+    <div class="fcard">
+      <div class="fcard-img" style="background:linear-gradient(135deg,#E0F7FA,#B2EBF2);">🫧</div>
+      <div class="fcard-info">
+        <h5>Lidah Buaya</h5>
+        <p>Aloe vera</p>
+        <span class="ftag">Daun</span>
+      </div>
+      <button class="fcard-del">🗑️</button>
+    </div>
+    <div class="fcard">
+      <div class="fcard-img" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0);">🌹</div>
+      <div class="fcard-info">
+        <h5>Rosella</h5>
+        <p>Hibiscus sabdariffa</p>
+        <span class="ftag">Bunga</span>
+      </div>
+      <button class="fcard-del">🗑️</button>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><span style="font-size:20px;">🏠</span><span>Beranda</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">🔍</span><span>Cari</span></div>
+    <div class="bnav-item on"><span style="font-size:20px;">❤️</span><span>Favorit</span><div class="bnav-dot"></div></div>
+    <div class="bnav-item"><span style="font-size:20px;">📰</span><span>Artikel</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">👤</span><span>Profil</span></div>
+  </div>
+</div>
+
+<!-- ===== ARTIKEL ===== -->
+<div class="page" id="artikel">
+  <div class="artikel-header">
+    <div class="artikel-title">Artikel Edukasi 📚</div>
+    <div class="art-tabs">
+      <button class="art-tab on">Semua</button>
+      <button class="art-tab">Kesehatan</button>
+      <button class="art-tab">Resep</button>
+      <button class="art-tab">Tips Berkebun</button>
+      <button class="art-tab">Riset</button>
+    </div>
+  </div>
+  <div class="artikel-scroll">
+    <!-- Featured -->
+    <div class="art-featured">
+      <span class="fcat">⭐ UNGGULAN</span>
+      <h4>Panduan Lengkap Menanam Apotik Hidup di Rumah</h4>
+      <p style="font-size:11px;opacity:.8;margin-top:4px;line-height:1.5;">Mulai kebun herbalmu sendiri dengan panduan praktis ini...</p>
+      <div class="fmeta">📅 21 Mei 2025 · 10 menit baca</div>
+      <div class="art-featured-emo">🌱</div>
+    </div>
+
+    <div class="big-art-card">
+      <div class="big-art-thumb bat1">🌿</div>
+      <div class="big-art-body">
+        <span class="bcat">Kesehatan</span>
+        <h5>Manfaat Jahe Merah untuk Sistem Imun Tubuh</h5>
+        <p>Penelitian terbaru membuktikan kandungan gingerol dalam jahe merah efektif meningkatkan sel imun...</p>
+        <div class="meta">
+          <span>📅 20 Mei 2025</span>
+          <span>⏱️ 5 menit</span>
+          <span>👁️ 1.2rb</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-art-card">
+      <div class="big-art-thumb bat2">🍵</div>
+      <div class="big-art-body">
+        <span class="bcat">Resep</span>
+        <h5>5 Resep Jamu Tradisional yang Mudah Dibuat</h5>
+        <p>Buat sendiri jamu kesehatanmu dengan bahan-bahan sederhana yang mudah didapat...</p>
+        <div class="meta">
+          <span>📅 18 Mei 2025</span>
+          <span>⏱️ 7 menit</span>
+          <span>👁️ 890</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-art-card">
+      <div class="big-art-thumb bat3">💧</div>
+      <div class="big-art-body">
+        <span class="bcat">Tips Berkebun</span>
+        <h5>Cara Merawat Tanaman Lidah Buaya agar Subur</h5>
+        <p>Lidah buaya adalah tanaman yang mudah dirawat namun perlu perhatian khusus agar tumbuh optimal...</p>
+        <div class="meta">
+          <span>📅 16 Mei 2025</span>
+          <span>⏱️ 4 menit</span>
+          <span>👁️ 654</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-art-card">
+      <div class="big-art-thumb bat4">🔬</div>
+      <div class="big-art-body">
+        <span class="bcat">Riset</span>
+        <h5>Studi: Kunyit Terbukti Efektif Atasi Peradangan</h5>
+        <p>Hasil penelitian dari Universitas Indonesia menunjukkan kandungan kurkumin dapat...</p>
+        <div class="meta">
+          <span>📅 14 Mei 2025</span>
+          <span>⏱️ 8 menit</span>
+          <span>👁️ 2.1rb</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><span style="font-size:20px;">🏠</span><span>Beranda</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">🔍</span><span>Cari</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">❤️</span><span>Favorit</span></div>
+    <div class="bnav-item on"><span style="font-size:20px;">📰</span><span>Artikel</span><div class="bnav-dot"></div></div>
+    <div class="bnav-item"><span style="font-size:20px;">👤</span><span>Profil</span></div>
+  </div>
+</div>
+
+<!-- ===== PROFIL ===== -->
+<div class="page" id="profil">
+  <div class="profil-header">
+    <div class="profil-avatar">🌿</div>
+    <div class="profil-name">Aulia Rahmawati</div>
+    <div class="profil-email">aulia.rahma@gmail.com</div>
+    <div class="profil-stats">
+      <div class="pstat">
+        <div class="psnum">47</div>
+        <div class="pslbl">Tanaman Dilihat</div>
+      </div>
+      <div class="pstat">
+        <div class="psnum">5</div>
+        <div class="pslbl">Favorit</div>
+      </div>
+      <div class="pstat">
+        <div class="psnum">12</div>
+        <div class="pslbl">Artikel Dibaca</div>
+      </div>
+    </div>
+  </div>
+  <div class="profil-scroll">
+    <div class="profil-section">
+      <div class="profil-section-title">Akun</div>
+      <div class="menu-card">
+        <div class="menu-item">
+          <div class="menu-ico mico1">✏️</div>
+          <div class="menu-text">
+            <h5>Edit Profil</h5>
+            <p>Ubah nama, foto, dan info pribadi</p>
+          </div>
+          <span class="menu-arr">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-ico mico2">🔑</div>
+          <div class="menu-text">
+            <h5>Ganti Password</h5>
+            <p>Perbarui keamanan akunmu</p>
+          </div>
+          <span class="menu-arr">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-ico mico3">⚙️</div>
+          <div class="menu-text">
+            <h5>Pengaturan Akun</h5>
+            <p>Notifikasi, privasi &amp; preferensi</p>
+          </div>
+          <span class="menu-arr">›</span>
+        </div>
+      </div>
+    </div>
+    <div class="profil-section">
+      <div class="profil-section-title">Lainnya</div>
+      <div class="menu-card">
+        <div class="menu-item">
+          <div class="menu-ico" style="background:#E8F5E9;color:var(--g1);">❓</div>
+          <div class="menu-text">
+            <h5>Bantuan &amp; FAQ</h5>
+            <p>Pertanyaan yang sering diajukan</p>
+          </div>
+          <span class="menu-arr">›</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-ico" style="background:#F1F8E9;color:var(--g2);">⭐</div>
+          <div class="menu-text">
+            <h5>Beri Penilaian</h5>
+            <p>Bantu kami berkembang lebih baik</p>
+          </div>
+          <span class="menu-arr">›</span>
+        </div>
+      </div>
+    </div>
+    <button class="logout-btn">🚪 Keluar dari Akun</button>
+    <p style="text-align:center;font-size:10px;color:var(--muted);padding-bottom:30px;">Herbalify v1.0.0 · © 2025 Herbalify Team</p>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><span style="font-size:20px;">🏠</span><span>Beranda</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">🔍</span><span>Cari</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">❤️</span><span>Favorit</span></div>
+    <div class="bnav-item"><span style="font-size:20px;">📰</span><span>Artikel</span></div>
+    <div class="bnav-item on"><span style="font-size:20px;">👤</span><span>Profil</span><div class="bnav-dot"></div></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN ===== -->
+<div class="page" id="admin">
+  <div class="admin-header">
+    <div class="admin-header-row">
+      <span class="admin-tag">🛡️ ADMIN PANEL</span>
+      <span style="font-size:20px;">🔔</span>
+    </div>
+    <div class="admin-title">Dashboard Admin</div>
+    <div class="admin-sub">Selamat datang, Administrator</div>
+  </div>
+  <div class="admin-scroll">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="s-ico">🌿</div>
+        <div class="s-num">248</div>
+        <div class="s-lbl">Total Tanaman</div>
+        <div class="s-trend">↑ +12 bulan ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ico">📰</div>
+        <div class="s-num">86</div>
+        <div class="s-lbl">Total Artikel</div>
+        <div class="s-trend">↑ +5 bulan ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ico">👥</div>
+        <div class="s-num">1.4rb</div>
+        <div class="s-lbl">Total Pengguna</div>
+        <div class="s-trend">↑ +89 bulan ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-ico">📂</div>
+        <div class="s-num">8</div>
+        <div class="s-lbl">Kategori</div>
+        <div class="s-trend">Stabil</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="admin-chart">
+      <div class="chart-title">📊 Kunjungan Bulanan (2025)</div>
+      <div class="chart-bars">
+        <div class="cbar" style="height:40%;"><span class="cbar-lbl">Jan</span></div>
+        <div class="cbar" style="height:55%;"><span class="cbar-lbl">Feb</span></div>
+        <div class="cbar" style="height:45%;"><span class="cbar-lbl">Mar</span></div>
+        <div class="cbar" style="height:70%;"><span class="cbar-lbl">Apr</span></div>
+        <div class="cbar active" style="height:90%;"><span class="cbar-lbl">Mei</span></div>
+      </div>
+      <div class="chart-x"></div>
+    </div>
+
+    <!-- CRUD Tanaman -->
+    <div class="admin-sec">
+      <div class="admin-sec-title">
+        Kelola Tanaman Herbal
+        <span>Lihat semua →</span>
+      </div>
+      <div class="crud-card">
+        <div class="crud-header">
+          <div>
+            <div class="crud-title">🌿 Data Tanaman</div>
+            <div class="crud-sub">248 tanaman terdaftar</div>
+          </div>
+          <button class="btn-add">＋ Tambah</button>
+        </div>
+        <div class="crud-list">
+          <div class="crud-item">
+            <span class="crud-item-ico">🌿</span>
+            <div class="crud-item-info">
+              <h6>Jahe Merah</h6>
+              <p>Zingiber officinale · Rimpang</p>
+            </div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+          <div class="crud-item">
+            <span class="crud-item-ico">🌻</span>
+            <div class="crud-item-info">
+              <h6>Kunyit</h6>
+              <p>Curcuma longa · Rimpang</p>
+            </div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+          <div class="crud-item">
+            <span class="crud-item-ico">🍃</span>
+            <div class="crud-item-info">
+              <h6>Sambiloto</h6>
+              <p>Andrographis · Daun</p>
+            </div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRUD Kategori -->
+    <div class="admin-sec">
+      <div class="admin-sec-title">Kelola Kategori</div>
+      <div class="crud-card">
+        <div class="crud-header">
+          <div>
+            <div class="crud-title">📂 Kategori</div>
+            <div class="crud-sub">8 kategori aktif</div>
+          </div>
+          <button class="btn-add">＋ Tambah</button>
+        </div>
+        <div class="crud-list">
+          <div class="crud-item">
+            <span class="crud-item-ico">🍃</span>
+            <div class="crud-item-info"><h6>Daun</h6><p>68 tanaman</p></div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+          <div class="crud-item">
+            <span class="crud-item-ico">🫚</span>
+            <div class="crud-item-info"><h6>Rimpang</h6><p>52 tanaman</p></div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+          <div class="crud-item">
+            <span class="crud-item-ico">🍋</span>
+            <div class="crud-item-info"><h6>Buah</h6><p>44 tanaman</p></div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRUD Artikel -->
+    <div class="admin-sec">
+      <div class="admin-sec-title">Kelola Artikel</div>
+      <div class="crud-card">
+        <div class="crud-header">
+          <div>
+            <div class="crud-title">📰 Artikel Edukasi</div>
+            <div class="crud-sub">86 artikel dipublikasi</div>
+          </div>
+          <button class="btn-add">＋ Tulis</button>
+        </div>
+        <div class="crud-list">
+          <div class="crud-item">
+            <span class="crud-item-ico">📝</span>
+            <div class="crud-item-info">
+              <h6>Manfaat Jahe Merah</h6>
+              <p>Kesehatan · 20 Mei 2025</p>
+            </div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+          <div class="crud-item">
+            <span class="crud-item-ico">📝</span>
+            <div class="crud-item-info">
+              <h6>Resep Jamu Kunyit Asem</h6>
+              <p>Resep · 18 Mei 2025</p>
+            </div>
+            <div class="crud-actions">
+              <button class="ibtn ibtn-edit">✏️</button>
+              <button class="ibtn ibtn-del">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /screen -->
+</div><!-- /phone -->
+</div><!-- /phone-wrap -->
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) { el.classList.add('active'); el.querySelector('.scroll-area, .home-scroll, .search-scroll, .fav-scroll, .artikel-scroll, .profil-scroll, .admin-scroll, .detail-body, .auth-form-wrap') && null; }
+  if(btn) btn.classList.add('active');
+
+  // Scroll phone screen to top
+  const screen = document.querySelector('.screen');
+  if(screen) screen.scrollTop = 0;
+}
+
+// Chip filter interactivity
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', function(){
+    this.closest('.filter-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+// Art tab interactivity
+document.querySelectorAll('.art-tab').forEach(tab => {
+  tab.addEventListener('click', function(){
+    this.closest('.art-tabs').querySelectorAll('.art-tab').forEach(t => t.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
